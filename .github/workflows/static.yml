@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Aniversário Vovó</title>
+    <style>
+        /* ... (seu estilo aqui) */
+    </style>
+</head>
+<body>
+    <div class="cartaz">
+        <!-- ... (seu conteúdo aqui) -->
+    </div>
+    <audio id="audio-faixa1" src="https://github.com/Alvarogomx/Feliz-Aniversario/blob/main/AUDIO-2025-06-16-07-54-18.m4a?raw=true"></audio>
+    <audio id="audio-faixa2" src="https://github.com/Alvarogomx/Feliz-Aniversario/blob/main/AUDIO-2025-06-16-07-54-56.m4a?raw=true"></audio>
+
+    <script>
+        const btnFaixa1 = document.getElementById('faixa1');
+        const btnFaixa2 = document.getElementById('faixa2');
+        const btnPausar = document.getElementById('pausar');
+        const faixaAtual = document.getElementById('faixa-atual');
+        const audio1 = document.getElementById('audio-faixa1');
+        const audio2 = document.getElementById('audio-faixa2');
+
+        let audioTocando = null;
+
+        function tocarFaixa(audio, nome) {
+            if (audioTocando && audioTocando !== audio) {
+                audioTocando.pause();
+                audioTocando.currentTime = 0;
+            }
+            audio.play();
+            audioTocando = audio;
+            faixaAtual.textContent = `Tocando: ${nome}`;
+            btnPausar.style.display = 'inline-block';
+        }
+
+        btnFaixa1.addEventListener('click', () => tocarFaixa(audio1, 'Faixa 1'));
+        btnFaixa2.addEventListener('click', () => tocarFaixa(audio2, 'Faixa 2'));
+
+        btnPausar.addEventListener('click', () => {
+            if (audioTocando) {
+                audioTocando.pause();
+                faixaAtual.textContent = '';
+                btnPausar.style.display = 'none';
+            }
+        });
+
+        [audio1, audio2].forEach(audio => {
+            audio.addEventListener('ended', () => {
+                faixaAtual.textContent = '';
+                btnPausar.style.display = 'none';
+                audioTocando = null;
+            });
+        });
+    </script>
+</body>
+</html>
